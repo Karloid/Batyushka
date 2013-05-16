@@ -7,12 +7,11 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.krld.batyushka.scene2d.Engine;
 
-import java.util.Random;
-
 public class MyStage extends Stage {
     private static final int SIZE = 100;
     private static final short TILE_SIZE = 64;
     private final byte[][] tileMap = new byte[SIZE][SIZE];
+    private final Character player;
 
     public MyStage(int windowWidth, int windowHeight, boolean b, SpriteBatch batch) {
         super(windowWidth, windowHeight, b, batch);
@@ -31,9 +30,9 @@ public class MyStage extends Stage {
                 addTile(tileMap[x][y], x, y);
             }
         }
-        Character actor = new Character(new Random().nextInt(Engine.WINDOW_WIDTH), new Random().nextInt(Engine.WINDOW_HEIGHT), characterTexture);
-        addActor(actor);
-        setKeyboardFocus(actor);
+        player = new Character(0, 0, characterTexture);
+        addActor(player);
+        setKeyboardFocus(player);
     }
 
     private void addTile(byte b, int x, int y) {
@@ -42,5 +41,23 @@ public class MyStage extends Stage {
         } else if (b == 1) {
             addActor(new GrassFlowersTile(x * TILE_SIZE, y * TILE_SIZE));
         }
+    }
+
+    @Override
+    public boolean touchDown(int x, int y, int pointer, int button) {
+        player.touchDown(x - (Engine.WINDOW_WIDTH / 2), (y - (Engine.WINDOW_HEIGHT / 2)), button);
+        return true;
+    }
+
+    @Override
+    public boolean touchDragged(int x, int y, int pointer) {
+        player.touchDragged(x - (Engine.WINDOW_WIDTH / 2), (y - (Engine.WINDOW_HEIGHT / 2)), pointer);
+        return true;
+    }
+
+    @Override
+    public boolean touchUp(int x, int y, int pointer, int button) {
+        player.touchUp(x, y, button);
+        return true;
     }
 }

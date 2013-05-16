@@ -3,6 +3,7 @@ package com.krld.batyushka.scene2d;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL10;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.krld.batyushka.scene2d.model.MyStage;
@@ -17,11 +18,14 @@ public class Engine implements ApplicationListener {
     public static final int WINDOW_HEIGHT = 600;
 	private SpriteBatch batch;
 	private Stage stage;
+    public OrthographicCamera cam;
 
 	@Override
 	public void create() {
+        this.cam = new OrthographicCamera(WINDOW_WIDTH, WINDOW_HEIGHT);
 		batch = new SpriteBatch();
 		stage = new MyStage(WINDOW_WIDTH, WINDOW_HEIGHT, false, batch);
+        stage.setCamera(cam);
 		Gdx.input.setInputProcessor(stage);
 	}
 
