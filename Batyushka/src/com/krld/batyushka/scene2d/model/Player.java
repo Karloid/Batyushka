@@ -8,17 +8,18 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import java.util.HashMap;
 import java.util.Map;
 
-class Character extends Actor {
+class Player extends Actor {
     public static final int SPEED = 2;
     private final TextureRegion texture;
     private short[] velocity;
+    private boolean isMoving;
 
     /**
      * Здесь мы храним информацию про класс Stage, которому принадлежит данный актер.
      * Она будет необходима нам для выставления фокуса скроллинга и фокуса ввода с клавиатуры
      */
 
-    public Character(int x, int y, TextureRegion texture) {
+    public Player(int x, int y, TextureRegion texture) {
         this.velocity = new short[2];
         this.x = x;
         this.y = y;
@@ -32,7 +33,7 @@ class Character extends Actor {
         updatePosition();
         batch.draw(texture, x, y, originX, originY, width, height, 1, 1, rotation);
         batch.setColor(1, 1, 1, 1);
-    //    System.out.println(Gdx.graphics.getFramesPerSecond());
+        //    System.out.println(Gdx.graphics.getFramesPerSecond());
     }
 
     private void updatePosition() {
@@ -51,62 +52,35 @@ class Character extends Actor {
 
     @Override
     public boolean touchDown(float x, float y, int pointer) {
-/*        *//**
-         * Если мы нажали на актера, мы увеличиваем его и передаем ему фокус ввода с клавиатуры и фокус скроллинга
-         *//*
-        System.out.println(pointer);
-        scaleX += 2;
-        scaleY += 2;
-        getStage().setTouchFocus(this, 1);
-        getStage().setScrollFocus(this);
-        getStage().setKeyboardFocus(this);
-
-        *//**
-         * Вращать будем вокруг точки, на которую мы нажали
-         *//*
-        originX = x;
-        originY = y;
-
-        return true;*/
-        move(x, y);
+        if (pointer == 0) {
+            isMoving = true;
+            move(x, y);
+        }
+        if (pointer == 1) {
+            castFireBall(x, y);
+        }
         return true;
+    }
+
+    private void castFireBall(float toX, float toY) {
+        getStage().addActor(new FireBall(x + height/ 2, y + height/ 2, toX - height/ 2, -(toY + height/ 2)));
     }
 
     @Override
     public void touchUp(float x, float y, int pointer) {
-        resetWay();
+        if (pointer == 0) {
+            isMoving = false;
+            resetWay();
+        }
     }
 
     @Override
     public boolean scrolled(int amount) {
-        /**
-         * При вращении колеса мыши вращаем актера
-         */
-        rotation += (amount * 20);
         return true;
     }
 
     @Override
     public boolean keyTyped(char c) {
-        /**
-         * Когда мы нажимаем на кнопки, стандартные для шутеров, наш актер двигается
-         */
-        switch (c) {
-            case 'a':
-                x -= 10;
-                break;
-            case 'd':
-                x += 10;
-                break;
-            case 's':
-                y -= 10;
-                break;
-            case 'w':
-                y += 10;
-                break;
-        }
-
-        updateCamera();
         return true;
     }
 
@@ -118,26 +92,16 @@ class Character extends Actor {
 
     @Override
     public void touchDragged(float x, float y, int pointer) {
-        move(x, y);
+        if (isMoving) {
+            move(x, y);
+        }
     }
 
     private void move(float toX, float toY) {
         resetWay();
-        /*
-        if (Math.abs(x) < 100 && Math.abs(y) < 100) {
-            return;
-        } */
         double angleToPoint = getAngleToPoint(toX, toY);
         //  System.out.println("debug: " + angleToPoint + " xy " + (toX - x) + " " +  (toY - y));
-        //   Log.i("BADGER", "Angle to point" + angleToPoint);
- /*       if (y < getY()) upPressed();
 
-        if (y > getY()) downPressed();
-
-        if (x < getX()) leftPressed();
-
-        if (x > (getPosition().x + size) * world.ppuX) rightPressed()*/
-        ;
         if (angleToPoint < 55 || angleToPoint > 305) upPressed();
 
         if (angleToPoint > 35 && angleToPoint < 145) rightPressed();
@@ -147,7 +111,6 @@ class Character extends Actor {
         if (angleToPoint > 215 && angleToPoint < 325) leftPressed();
 
         processPosition();
-
     }
 
     private void processPosition() {

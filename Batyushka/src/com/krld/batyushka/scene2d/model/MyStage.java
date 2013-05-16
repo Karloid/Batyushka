@@ -6,12 +6,14 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.krld.batyushka.scene2d.Engine;
+import com.krld.batyushka.scene2d.model.tiles.GrassFlowersTile;
+import com.krld.batyushka.scene2d.model.tiles.GrassTile;
 
 public class MyStage extends Stage {
     private static final int SIZE = 100;
     private static final short TILE_SIZE = 64;
     private final byte[][] tileMap = new byte[SIZE][SIZE];
-    private final Character player;
+    private final Player player;
 
     public MyStage(int windowWidth, int windowHeight, boolean b, SpriteBatch batch) {
         super(windowWidth, windowHeight, b, batch);
@@ -30,7 +32,7 @@ public class MyStage extends Stage {
                 addTile(tileMap[x][y], x, y);
             }
         }
-        player = new Character(0, 0, characterTexture);
+        player = new Player(0, 0, characterTexture);
         addActor(player);
         setKeyboardFocus(player);
     }

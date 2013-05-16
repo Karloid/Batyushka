@@ -1,4 +1,4 @@
-package com.krld.batyushka.scene2d.model;
+package com.krld.batyushka.scene2d.model.tiles;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
