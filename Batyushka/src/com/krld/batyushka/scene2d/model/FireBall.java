@@ -8,6 +8,8 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 
 public class FireBall extends Actor {
     private static final float SPEED = 10;
+    public static final short DAMAGE = 20;
+    private final long birthDate;
     private short[] velocity;
 
     public FireBall(float x, float y, float toX, float toY) {
@@ -16,10 +18,8 @@ public class FireBall extends Actor {
         this.width = 16;
         this.height = 16;
         velocity = new short[2];
-
-        //    velocity[0] = (short) (toX /10);
-        //  velocity[1] = (short) (toY / 10);
         setupVelocity(toX, toY);
+        birthDate = System.currentTimeMillis();
     }
 
     private void setupVelocity(float toX, float toY) {
@@ -45,17 +45,33 @@ public class FireBall extends Actor {
     @Override
     public void draw(SpriteBatch batch, float parentAlpha) {
         updatePosition();
-        batch.draw(texture, x, y, originX, originY, width, height, 1, 1, rotation);
+        batch.draw(texture, x - 8, y - 8, originX, originY, width, height, 1, 1, rotation);
         batch.setColor(1, 1, 1, 1);
     }
 
     private void updatePosition() {
         x += velocity[0];
         y += velocity[1];
+        if (System.currentTimeMillis() - birthDate > 700) {
+            ((MyStage) getStage()).getFireBalls().remove(this);
+            this.remove();
+        }
     }
 
     @Override
     public Actor hit(float x, float y) {
         return null;
+    }
+
+    public boolean checkCollision() {
+        for (MyUnit myUnit : ((MyStage) getStage()).getUnits()) {
+            if (32 > Math.abs(myUnit.x - this.x) && 32 > Math.abs(myUnit.y - this.y)) {
+                myUnit.fireBallHit(this);
+                return true;
+                //   this.remove();
+                //  ((MyStage) getStage()).getFireBalls().remove(this);
+            }
+        }
+        return false;
     }
 }

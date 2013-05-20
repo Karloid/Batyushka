@@ -1,0 +1,45 @@
+package com.krld.batyushka.scene2d.model;
+
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.krld.batyushka.scene2d.Engine;
+
+public class DamageLabel extends MyUnit {
+    private final String damage;
+    private long birthDate;
+    public static final int LIFE_TIME = 600;
+    public DamageLabel(float x, float y, int damage) {
+        velocity = new short[2];
+        velocity[0] = 1;
+        velocity[1] = 1;
+        this.x = x;
+        this.y = y;
+        this.damage = "-" + String.valueOf(damage);
+        birthDate = System.currentTimeMillis();
+    }
+
+    @Override
+    protected void updatePosition() {
+        super.updatePosition();
+        if (System.currentTimeMillis() - birthDate > LIFE_TIME) {
+            ((MyStage) getStage()).getFireBalls().remove(this);
+            this.remove();
+        }
+    }
+
+    @Override
+    public void draw(SpriteBatch batch, float parentAlpha) {
+        updatePosition();
+        //   batch.draw(texture, x - 32, y - 32, originX, originY, width, height, 1, 1, rotation);
+       // batch.setColor(1, 0.5f, 0.5f, 1);
+        Engine.font.setColor(1, 0.5f, 0.5f, 1);
+        Engine.font.draw(batch, damage, x - 32, y + 64);
+        Engine.font.setColor(1, 1, 1, 1);
+       // batch.setColor(1, 1, 1, 1);
+    }
+
+    @Override
+    public Actor hit(float x, float y) {
+        return null;
+    }
+}

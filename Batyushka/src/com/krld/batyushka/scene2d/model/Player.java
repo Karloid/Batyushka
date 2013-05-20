@@ -4,14 +4,14 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.krld.batyushka.scene2d.Engine;
 
 import java.util.HashMap;
 import java.util.Map;
 
-class Player extends Actor {
+class Player extends MyUnit {
     public static final int SPEED = 2;
     private final TextureRegion texture;
-    private short[] velocity;
     private boolean isMoving;
 
     /**
@@ -20,6 +20,7 @@ class Player extends Actor {
      */
 
     public Player(int x, int y, TextureRegion texture) {
+        super(x, y);
         this.velocity = new short[2];
         this.x = x;
         this.y = y;
@@ -29,14 +30,16 @@ class Player extends Actor {
     }
 
     @Override
-    public void draw(SpriteBatch batch, float parentAlfa) {
+    public void draw(SpriteBatch batch, float parentAlpha) {
         updatePosition();
-        batch.draw(texture, x, y, originX, originY, width, height, 1, 1, rotation);
+        batch.draw(texture, x - 32, y - 32, originX, originY, width, height, 1, 1, rotation);
+        Engine.font.draw(batch, hitpoint + "", x - 32,y + 64);
         batch.setColor(1, 1, 1, 1);
         //    System.out.println(Gdx.graphics.getFramesPerSecond());
     }
 
-    private void updatePosition() {
+    @Override
+    protected void updatePosition() {
         x += velocity[0];
         y += velocity[1];
         updateCamera();
@@ -59,11 +62,16 @@ class Player extends Actor {
         if (pointer == 1) {
             castFireBall(x, y);
         }
+        if (pointer == 2) {
+            ((MyStage)getStage()).spawnWolfs(x + this.x,-y + this.y);
+        }
         return true;
     }
 
     private void castFireBall(float toX, float toY) {
-        getStage().addActor(new FireBall(x + height/ 2, y + height/ 2, toX - height/ 2, -(toY + height/ 2)));
+        FireBall fireBall = new FireBall(x, y , toX , -(toY ));
+        ((MyStage) getStage()).getFireBalls().add(fireBall);
+        getStage().addActor(fireBall);
     }
 
     @Override

@@ -2,8 +2,10 @@ package com.krld.batyushka.scene2d;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.krld.batyushka.scene2d.model.MyStage;
@@ -19,9 +21,13 @@ public class Engine implements ApplicationListener {
 	private SpriteBatch batch;
 	private Stage stage;
     public OrthographicCamera cam;
+    public  static BitmapFont font;
 
-	@Override
+    @Override
 	public void create() {
+        font = new BitmapFont(Gdx.files.internal("batyushka/res/dindisplay.fnt"),
+                Gdx.files.internal("batyushka/res/dindisplay.png"), false);
+        font.setColor(Color.WHITE);
         this.cam = new OrthographicCamera(WINDOW_WIDTH, WINDOW_HEIGHT);
 		batch = new SpriteBatch();
 		stage = new MyStage(WINDOW_WIDTH, WINDOW_HEIGHT, false, batch);
