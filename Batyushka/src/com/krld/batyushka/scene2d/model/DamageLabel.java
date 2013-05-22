@@ -3,6 +3,7 @@ package com.krld.batyushka.scene2d.model;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.krld.batyushka.scene2d.Engine;
+import com.krld.batyushka.scene2d.model.units.MyUnit;
 
 public class DamageLabel extends MyUnit {
     private final String damage;
@@ -10,8 +11,8 @@ public class DamageLabel extends MyUnit {
     public static final int LIFE_TIME = 600;
     public DamageLabel(float x, float y, int damage) {
         velocity = new short[2];
-        velocity[0] = 1;
-        velocity[1] = 1;
+        velocity[0] = 2;
+        velocity[1] = 2;
         this.x = x;
         this.y = y;
         this.damage = "-" + String.valueOf(damage);

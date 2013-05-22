@@ -18,7 +18,7 @@ public class GrassTile extends Tile {
 
     @Override
     public void draw(SpriteBatch batch, float parentAlpha) {
-        batch.draw(texture, x, y, originX, originY, width, height, 1, 1, rotation);
+        batch.draw(texture, x - 32, y - 32, originX, originY, width, height, 1, 1, rotation);
         batch.setColor(1, 1, 1, 1);
     }
 

@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.krld.batyushka.scene2d.model.units.MyUnit;
 
 public class FireBall extends Actor {
     private static final float SPEED = 10;
@@ -46,7 +47,6 @@ public class FireBall extends Actor {
     public void draw(SpriteBatch batch, float parentAlpha) {
         updatePosition();
         batch.draw(texture, x - 8, y - 8, originX, originY, width, height, 1, 1, rotation);
-        batch.setColor(1, 1, 1, 1);
     }
 
     private void updatePosition() {

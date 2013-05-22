@@ -1,4 +1,4 @@
-package com.krld.batyushka.scene2d.model;
+package com.krld.batyushka.scene2d.model.units;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.krld.batyushka.scene2d.Engine;
+import com.krld.batyushka.scene2d.model.FireBall;
 
 public class Wolf extends MyUnit {
 
@@ -26,12 +27,21 @@ public class Wolf extends MyUnit {
     }
 
     @Override
+    protected void update(float deltaTime) {
+        if (!attackPlayer()) {
+        super.update(deltaTime);  }
+
+    }
+
+
+    @Override
     public void draw(SpriteBatch batch, float parentAlpha) {
-        updatePosition();
+        update(Gdx.graphics.getDeltaTime());
         batch.draw(texture, x - 32, y - 32, originX, originY, width, height, 1, 1, rotation);
         Engine.font.draw(batch, hitpoint + "", x - 32,y + 64);
         batch.setColor(1, 1, 1, 1);
     }
+
 
     @Override
     public Actor hit(float x, float y) {

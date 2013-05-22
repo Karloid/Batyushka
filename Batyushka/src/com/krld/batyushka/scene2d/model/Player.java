@@ -1,15 +1,17 @@
 package com.krld.batyushka.scene2d.model;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.krld.batyushka.scene2d.Engine;
+import com.krld.batyushka.scene2d.model.units.MyUnit;
 
 import java.util.HashMap;
 import java.util.Map;
 
-class Player extends MyUnit {
+public class Player extends MyUnit {
     public static final int SPEED = 2;
     private final TextureRegion texture;
     private boolean isMoving;
@@ -32,6 +34,7 @@ class Player extends MyUnit {
     @Override
     public void draw(SpriteBatch batch, float parentAlpha) {
         updatePosition();
+        Engine.font.draw(batch, "fps: " + Gdx.graphics.getFramesPerSecond(), x - 400, y+ 300 );
         batch.draw(texture, x - 32, y - 32, originX, originY, width, height, 1, 1, rotation);
         Engine.font.draw(batch, hitpoint + "", x - 32,y + 64);
         batch.setColor(1, 1, 1, 1);
