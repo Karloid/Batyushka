@@ -1,12 +1,14 @@
-package com.krld.batyushka.scene2d.model;
+package com.krld.batyushka.scene2d.model.units;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.krld.batyushka.scene2d.Engine;
-import com.krld.batyushka.scene2d.model.units.MyUnit;
+import com.krld.batyushka.scene2d.draw.ResurrectButton;
+import com.krld.batyushka.scene2d.model.FireBall;
+import com.krld.batyushka.scene2d.model.MyStage;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,6 +17,10 @@ public class Player extends MyUnit {
     public static final int SPEED = 2;
     private final TextureRegion texture;
     private boolean isMoving;
+    private static TextureRegion deadTexture;
+    static {
+        deadTexture = new TextureRegion(new Texture(Gdx.files.internal("batyushka/res/deadCharacter.png")), 0, 0, 32, 32);
+    }
 
     /**
      * Здесь мы храним информацию про класс Stage, которому принадлежит данный актер.
@@ -34,18 +40,33 @@ public class Player extends MyUnit {
     @Override
     public void draw(SpriteBatch batch, float parentAlpha) {
         updatePosition();
-        Engine.font.draw(batch, "fps: " + Gdx.graphics.getFramesPerSecond(), x - 400, y+ 300 );
-        batch.draw(texture, x - 32, y - 32, originX, originY, width, height, 1, 1, rotation);
-        Engine.font.draw(batch, hitpoint + "", x - 32,y + 64);
+        if (isDead) {
+            batch.draw(deadTexture, x - 32, y - 32, originX, originY, width, height, 1, 1, rotation);
+        } else {
+            if (hitpoint < 30) {
+                batch.setColor(1, 0.8f, 0.8f, 1);
+            }
+        batch.draw(texture, x - 32, y - 32, originX, originY, width, height, 1, 1, rotation);   }
         batch.setColor(1, 1, 1, 1);
         //    System.out.println(Gdx.graphics.getFramesPerSecond());
     }
 
     @Override
     protected void updatePosition() {
-        x += velocity[0];
-        y += velocity[1];
-        updateCamera();
+        if (isDead) {
+            return;
+        }
+        if (hitpoint <= 0) {
+            isDead = true;
+            velocity[0] = 0;
+            velocity[1] = 0;
+            stage.addActor(new ResurrectButton(this));
+         //   stage.addActor(new PlayerCorpse(this));
+        } else {
+            x += velocity[0];
+            y += velocity[1];
+            updateCamera();
+        }
     }
 
     @Override
@@ -66,13 +87,16 @@ public class Player extends MyUnit {
             castFireBall(x, y);
         }
         if (pointer == 2) {
-            ((MyStage)getStage()).spawnWolfs(x + this.x,-y + this.y);
+            ((MyStage) getStage()).spawnWolfs(x + this.x, -y + this.y);
         }
         return true;
     }
 
     private void castFireBall(float toX, float toY) {
-        FireBall fireBall = new FireBall(x, y , toX , -(toY ));
+        if (isDead) {
+            return;
+        }
+        FireBall fireBall = new FireBall(x, y, toX, -(toY));
         ((MyStage) getStage()).getFireBalls().add(fireBall);
         getStage().addActor(fireBall);
     }

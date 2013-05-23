@@ -7,10 +7,11 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.krld.batyushka.scene2d.Engine;
 import com.krld.batyushka.scene2d.model.FireBall;
+import com.krld.batyushka.scene2d.model.MyStage;
 
 public class Wolf extends MyUnit {
 
-
+    // private static short damage = 10;
     private static final TextureRegion texture;
 
     static {
@@ -19,6 +20,7 @@ public class Wolf extends MyUnit {
 
     public Wolf(int x, int y) {
         super(x, y);
+        this.damage = 15;
     }
 
     @Override
@@ -28,9 +30,10 @@ public class Wolf extends MyUnit {
 
     @Override
     protected void update(float deltaTime) {
-        if (!attackPlayer()) {
-        super.update(deltaTime);  }
-
+        Player player = ((MyStage) getStage()).getPlayer();
+        if (!chaseAndAttack(player)) {
+            super.update(deltaTime);
+        }
     }
 
 
@@ -38,7 +41,7 @@ public class Wolf extends MyUnit {
     public void draw(SpriteBatch batch, float parentAlpha) {
         update(Gdx.graphics.getDeltaTime());
         batch.draw(texture, x - 32, y - 32, originX, originY, width, height, 1, 1, rotation);
-        Engine.font.draw(batch, hitpoint + "", x - 32,y + 64);
+        Engine.font.draw(batch, hitpoint + "", x - 32, y + 64);
         batch.setColor(1, 1, 1, 1);
     }
 

@@ -1,6 +1,7 @@
 package com.krld.batyushka.scene2d.model.units;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.krld.batyushka.scene2d.draw.DamageLabel;
 import com.krld.batyushka.scene2d.model.*;
 
 import java.util.List;
@@ -9,11 +10,14 @@ public abstract class MyUnit extends Actor {
     private static final float RANDOM_PART_DAMAGE = 0.3f;
     private static final long MIN_TIME_MOVING = 1000;
     public static final int AGR_DISTANCE = 200;
-
+    private static final short ATTACK_DELAY = 1000;
+    public boolean isDead = false;
     protected short[] velocity;
-    protected short hitpoint;
+    public short hitpoint;
     private short SPEED = 2;
     protected long startMoving;
+    protected short damage;
+    private long lastAttackTime = 0;
 
 
     public MyUnit(int x, int y) {
@@ -23,6 +27,7 @@ public abstract class MyUnit extends Actor {
         this.width = 64;
         this.height = 64;
         hitpoint = 100;
+        damage = 10;
     }
 
     protected MyUnit() {
@@ -52,23 +57,34 @@ public abstract class MyUnit extends Actor {
         y += velocity[1];
     }
 
-    protected boolean attackPlayer() {
-        Player player = ((MyStage) getStage()).getPlayer();
-        float yRelative = y - player.y;
-        float xRelative = x - player.x;
+    protected boolean chaseAndAttack(MyUnit unit) {
+        if (unit.hitpoint <= 0) {
+            return false;
+        }
+        float yRelative = y - unit.y;
+        float xRelative = x - unit.x;
         float absX = Math.abs(xRelative);
         float absY = Math.abs(yRelative);
         if (absX < AGR_DISTANCE && absY < AGR_DISTANCE) {
-            System.out.println("agr");
             if (absX < 32 && absY < 32) {
                 stopMove();
+                attack(unit);
             } else {
-            moveTo(-xRelative, -yRelative);      }
-            System.out.println("velociy: " + velocity[0] + " " + velocity[1]);
+                moveTo(-xRelative, -yRelative);
+            }
             updatePosition();
             return true;
         }
         return false;
+    }
+
+    private void attack(MyUnit unit) {
+        if (lastAttackTime == 0 || System.currentTimeMillis() - lastAttackTime > ATTACK_DELAY) {
+            int damage = (int) Math.floor(this.damage - (this.damage * MyUnit.RANDOM_PART_DAMAGE * Math.random()));
+            unit.hitpoint -= damage;
+            getStage().addActor(new DamageLabel(unit.x, unit.y, damage));
+            lastAttackTime = System.currentTimeMillis();
+        }
     }
 
     protected void stopMove() {

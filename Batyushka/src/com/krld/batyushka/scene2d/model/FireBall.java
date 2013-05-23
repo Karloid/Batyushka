@@ -68,8 +68,6 @@ public class FireBall extends Actor {
             if (32 > Math.abs(myUnit.x - this.x) && 32 > Math.abs(myUnit.y - this.y)) {
                 myUnit.fireBallHit(this);
                 return true;
-                //   this.remove();
-                //  ((MyStage) getStage()).getFireBalls().remove(this);
             }
         }
         return false;
