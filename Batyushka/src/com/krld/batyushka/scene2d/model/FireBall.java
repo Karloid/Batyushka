@@ -64,12 +64,20 @@ public class FireBall extends Actor {
     }
 
     public boolean checkCollision() {
-        for (MyUnit myUnit : ((MyStage) getStage()).getUnits()) {
+        MyStage myStage = (MyStage) getStage();
+        for (MyUnit myUnit : myStage.getUnits()) {
             if (32 > Math.abs(myUnit.x - this.x) && 32 > Math.abs(myUnit.y - this.y)) {
                 myUnit.fireBallHit(this);
                 return true;
             }
         }
+        for (MyUnit staticObject : myStage.getStaticObjects()) {
+            if (32 > Math.abs(staticObject.x - this.x) && 32 > Math.abs(staticObject.y - this.y)) {
+                staticObject.fireBallHit(this);
+                return true;
+            }
+        }
+
         return false;
     }
 }

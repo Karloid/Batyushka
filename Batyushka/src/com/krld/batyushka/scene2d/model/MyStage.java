@@ -10,10 +10,12 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.krld.batyushka.scene2d.Engine;
 import com.krld.batyushka.scene2d.model.staticobjects.AppleTree;
 import com.krld.batyushka.scene2d.model.tiles.GrassFlowersTile;
+import com.krld.batyushka.scene2d.model.tiles.GrassFlowersTile2;
 import com.krld.batyushka.scene2d.model.tiles.GrassTile;
 import com.krld.batyushka.scene2d.model.tiles.Tile;
 import com.krld.batyushka.scene2d.model.units.MyUnit;
 import com.krld.batyushka.scene2d.model.units.Player;
+import com.krld.batyushka.scene2d.model.units.Rabbit;
 import com.krld.batyushka.scene2d.model.units.Wolf;
 
 import java.util.ArrayList;
@@ -43,10 +45,10 @@ public class MyStage extends Stage {
         setFireBalls(new ArrayList<FireBall>());
         units = new ArrayList<MyUnit>();
         player = new Player(50 * TILE_SIZE, 50 * TILE_SIZE, characterTexture);
-        addActor(getPlayer());
         Wolf wolf = new Wolf(53 * TILE_SIZE, 53 * TILE_SIZE);
         units.add(wolf);
         addActor(wolf);
+        addActor(getPlayer());
         //   wolf.action(new FadeOut().);
         setKeyboardFocus(getPlayer());
         //    world.
@@ -54,32 +56,37 @@ public class MyStage extends Stage {
 
     private void generateWorld() {
         tiles = new ArrayList<Tile>();
-        staticObjects = new ArrayList<MyUnit>();
+        setStaticObjects(new ArrayList<MyUnit>());
         for (int x = 0; x < MyStage.SIZE; x++) {
             for (int y = 0; y < MyStage.SIZE; y++) {
-                tileMap[x][y] = (byte) (Math.random() * 2);
+                tileMap[x][y] = (byte) (Math.random() * 3);
                 addTile(tileMap[x][y], x, y);
                 if (Math.random() > 0.9f) {
-                    staticObjects.add(new AppleTree(x * TILE_SIZE, y * TILE_SIZE));
+                    getStaticObjects().add(new AppleTree(x * TILE_SIZE, y * TILE_SIZE));
                 }
             }
         }
-        for (MyUnit myUnit : staticObjects) {
+        for (MyUnit myUnit : getStaticObjects()) {
             //System.out.println("add tree");
             addActor(myUnit);
         }
     }
 
     private void addTile(byte b, int x, int y) {
+        Tile tile = null;
         if (b == 0) {
-            GrassTile grassTile = new GrassTile(x * TILE_SIZE, y * TILE_SIZE);
-            addActor(grassTile);
-            tiles.add(grassTile);
+            tile = new GrassTile(x * TILE_SIZE, y * TILE_SIZE);
         } else if (b == 1) {
-            GrassFlowersTile grassTile = new GrassFlowersTile(x * TILE_SIZE, y * TILE_SIZE);
-            addActor(grassTile);
-            tiles.add(grassTile);
+            tile = new GrassFlowersTile(x * TILE_SIZE, y * TILE_SIZE);
+        } else if (b == 2) {
+            if (Math.random() > 0.9f) {
+                tile = new GrassFlowersTile2(x * TILE_SIZE, y * TILE_SIZE);
+            } else {
+                tile = new GrassTile(x * TILE_SIZE, y * TILE_SIZE);
+            }
         }
+        addActor(tile);
+        tiles.add(tile);
     }
 
     @Override
@@ -90,6 +97,7 @@ public class MyStage extends Stage {
         batch.begin();
         Engine.font.draw(batch, "fps: " + Gdx.graphics.getFramesPerSecond(), player.x - 400, player.y + 300);
         Engine.font.draw(batch, "HP: " + player.hitpoint, player.x - 400, player.y - 270);
+        Engine.font.draw(batch, String.valueOf(player.killCount), camera.position.x + 350, camera.position.y + 300);
         batch.end();
     }
 
@@ -170,10 +178,18 @@ public class MyStage extends Stage {
         return units;
     }
 
-    public void spawnWolfs(float x, float y) {
-        Wolf wolf = new Wolf((int) x, (int) y);
-        units.add(wolf);
-        addActor(wolf);
+    public void spawnUnits(float x, float y) {
+        MyUnit myUnit = null;
+        if (Math.random() > 0.5f) {
+            myUnit = new Wolf((int) x, (int) y);
+        } else {
+            myUnit = new Rabbit((int) x, (int) y);
+        }
+        units.add(myUnit);
+        addActor(myUnit);
+        //TODO sorting actors on Y axis
+        player.remove();
+        addActor(player);
     }
 
     public Player getPlayer() {
@@ -181,11 +197,23 @@ public class MyStage extends Stage {
     }
 
     public void resurrectPlayer() {
-     //   player.remove();
+        //   player.remove();
         Texture textureAtlas = new Texture(Gdx.files.internal("batyushka/res/character.png"));
         TextureRegion characterTexture = new TextureRegion(textureAtlas, 0, 0, 32, 32);
         player = new Player(50 * TILE_SIZE, 50 * TILE_SIZE, characterTexture);
         addActor(getPlayer());
+    }
 
+    public static boolean isCameraView(Stage stage, float x, float y) {
+        return stage.getCamera().position.x - 600 < x && stage.getCamera().position.y - 400 < y &&
+                stage.getCamera().position.x + 600 > x && stage.getCamera().position.y + 400 > y;
+    }
+
+    public List<MyUnit> getStaticObjects() {
+        return staticObjects;
+    }
+
+    public void setStaticObjects(List<MyUnit> staticObjects) {
+        this.staticObjects = staticObjects;
     }
 }

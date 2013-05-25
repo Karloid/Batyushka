@@ -18,6 +18,7 @@ import com.krld.batyushka.scene2d.model.MyStage;
 public class Engine implements ApplicationListener {
     public static final int WINDOW_WIDTH = 800;
     public static final int WINDOW_HEIGHT = 600;
+    public static final short TILE_SIZE = 64;
 	private SpriteBatch batch;
 	private Stage stage;
     public OrthographicCamera cam;
@@ -25,9 +26,10 @@ public class Engine implements ApplicationListener {
 
     @Override
 	public void create() {
-        font = new BitmapFont(Gdx.files.internal("batyushka/res/dindisplay.fnt"),
-                Gdx.files.internal("batyushka/res/dindisplay.png"), false);
+        font = new BitmapFont(Gdx.files.internal("batyushka/res/rotorBoyShadow.fnt"),
+                Gdx.files.internal("batyushka/res/rotorBoyShadow.png"), false);
         font.setColor(Color.WHITE);
+        font.scale(1f);
         this.cam = new OrthographicCamera(WINDOW_WIDTH, WINDOW_HEIGHT);
 		batch = new SpriteBatch();
 		stage = new MyStage(WINDOW_WIDTH, WINDOW_HEIGHT, false, batch);

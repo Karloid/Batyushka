@@ -22,7 +22,9 @@ public class DamageLabel extends MyUnit {
 
     @Override
     protected void updatePosition() {
-        super.updatePosition();
+     //   super.updatePosition();
+        x += velocity[0];
+        y += velocity[1];
         if (System.currentTimeMillis() - birthDate > LIFE_TIME) {
             ((MyStage) getStage()).getFireBalls().remove(this);
             this.remove();

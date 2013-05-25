@@ -22,6 +22,8 @@ public class Player extends MyUnit {
         deadTexture = new TextureRegion(new Texture(Gdx.files.internal("batyushka/res/deadCharacter.png")), 0, 0, 32, 32);
     }
 
+    public short killCount;
+
     /**
      * Здесь мы храним информацию про класс Stage, которому принадлежит данный актер.
      * Она будет необходима нам для выставления фокуса скроллинга и фокуса ввода с клавиатуры
@@ -35,6 +37,7 @@ public class Player extends MyUnit {
         this.width = 64;
         this.height = 64;
         this.texture = texture;
+        this.killCount = 0;
     }
 
     @Override
@@ -63,11 +66,13 @@ public class Player extends MyUnit {
             stage.addActor(new ResurrectButton(this));
          //   stage.addActor(new PlayerCorpse(this));
         } else {
-            x += velocity[0];
-            y += velocity[1];
+            updatePosWithCheckCollisions();
+         //   super.updatePosition();
             updateCamera();
         }
     }
+
+
 
     @Override
     public Actor hit(float x, float y) {
@@ -87,7 +92,7 @@ public class Player extends MyUnit {
             castFireBall(x, y);
         }
         if (pointer == 2) {
-            ((MyStage) getStage()).spawnWolfs(x + this.x, -y + this.y);
+            ((MyStage) getStage()).spawnUnits(x + this.x, -y + this.y);
         }
         return true;
     }
@@ -235,4 +240,9 @@ public class Player extends MyUnit {
         angleToPoint = (x > 0) ? angleToPoint + 90 : angleToPoint + 270;
         return angleToPoint;
     }
+
+    protected void addKillCount() {
+
+        killCount++;
+    };
 };

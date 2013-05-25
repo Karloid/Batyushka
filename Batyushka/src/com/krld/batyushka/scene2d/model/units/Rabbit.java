@@ -8,23 +8,21 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.krld.batyushka.scene2d.Engine;
 import com.krld.batyushka.scene2d.model.MyStage;
 
-public class Wolf extends MyUnit {
-
-    // private static short damage = 10;
+public class Rabbit extends MyUnit {
     private static final TextureRegion texture;
 
     private static TextureRegion deadTexture;
 
     static {
-        texture = new TextureRegion(new Texture(Gdx.files.internal("batyushka/res/wolf.png")), 0, 0, 32, 32);
-        deadTexture = new TextureRegion(new Texture(Gdx.files.internal("batyushka/res/wolfDead.png")), 0, 0, 32, 32);
+        texture = new TextureRegion(new Texture(Gdx.files.internal("batyushka/res/rabbit.png")), 0, 0, 32, 32);
+        deadTexture = new TextureRegion(new Texture(Gdx.files.internal("batyushka/res/rabbitDead.png")), 0, 0, 32, 32);
     }
 
-    private static final short MAX_HITPOINTS = 80;
+    private static final short MAX_HITPOINTS = 30;
 
-    public Wolf(int x, int y) {
+    public Rabbit(int x, int y) {
         super(x, y);
-        this.damage = 15;
+        this.damage = 0;
         this.hitpoint = MAX_HITPOINTS;
         this.speed = PEACEFULL_SPEED;
     }
@@ -35,10 +33,7 @@ public class Wolf extends MyUnit {
         if (isDead) {
             return;
         }
-        Player player = ((MyStage) getStage()).getPlayer();
-        if (!chaseAndAttack(player)) {
-            super.update(deltaTime);
-        }
+        super.update(deltaTime);
     }
 
 
