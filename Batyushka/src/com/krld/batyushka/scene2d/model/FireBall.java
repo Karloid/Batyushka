@@ -10,6 +10,7 @@ import com.krld.batyushka.scene2d.model.units.MyUnit;
 public class FireBall extends Actor {
     private static final float SPEED = 10;
     public static final short DAMAGE = 20;
+    public static final int LIFE_TIME = 400;
     private final long birthDate;
     private short[] velocity;
 
@@ -52,7 +53,7 @@ public class FireBall extends Actor {
     private void updatePosition() {
         x += velocity[0];
         y += velocity[1];
-        if (System.currentTimeMillis() - birthDate > 700) {
+        if (System.currentTimeMillis() - birthDate > LIFE_TIME) {
             ((MyStage) getStage()).getFireBalls().remove(this);
             this.remove();
         }

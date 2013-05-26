@@ -141,7 +141,7 @@ public abstract class MyUnit extends Actor {
         if (hitpoint <= 0) {
             ((MyStage) getStage()).getPlayer().addKillCount();
             if (this instanceof StaticObject) {
-                ((StaticObject)this).destroy();
+                ((StaticObject) this).destroy();
             }
             //    List<MyUnit> units = ((MyStage) getStage()).getUnits();
             //     units.remove(this);
@@ -159,6 +159,9 @@ public abstract class MyUnit extends Actor {
     }
 
     protected void updatePosWithCheckCollisions() {
+        if (velocity[0] == 0 && velocity[1] == 0) {
+            return;
+        }
         float xTmp = x + velocity[0];
         float yTmp = y + velocity[1];
         boolean missX = false;
@@ -166,13 +169,15 @@ public abstract class MyUnit extends Actor {
         for (MyUnit myUnit : ((MyStage) stage).getStaticObjects()) {
             if (!missX && Math.abs(myUnit.x - xTmp) < COLLISIONS_WIDTH && Math.abs(myUnit.y - y) < COLLISIONS_WIDTH) {
                 missX = true;
+                if (missX && missY) {
+                    return;
+                }
             }
             if (!missY && Math.abs(myUnit.y - yTmp) < COLLISIONS_WIDTH && Math.abs(myUnit.x - x) < COLLISIONS_WIDTH) {
                 missY = true;
-            }
-          //  System.out.println(" " + missX + " " + missY);
-            if (missX && missY) {
-                return;
+                if (missX && missY) {
+                    return;
+                }
             }
         }
 
