@@ -1,9 +1,9 @@
-package com.krld.batyushka.scene2d.model.staticobjects;
+package batyushka.model.staticobjects;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.krld.batyushka.scene2d.Engine;
-import com.krld.batyushka.scene2d.model.MyStage;
-import com.krld.batyushka.scene2d.model.units.MyUnit;
+import batyushka.Engine;
+import batyushka.model.MyStage;
+import batyushka.model.units.MyUnit;
 
 public abstract class StaticObject extends MyUnit {
 

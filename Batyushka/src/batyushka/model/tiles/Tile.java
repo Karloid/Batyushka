@@ -1,4 +1,4 @@
-package com.krld.batyushka.scene2d.model.tiles;
+package batyushka.model.tiles;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 

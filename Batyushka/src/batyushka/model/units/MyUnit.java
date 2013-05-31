@@ -1,11 +1,11 @@
-package com.krld.batyushka.scene2d.model.units;
+package batyushka.model.units;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.krld.batyushka.scene2d.Engine;
-import com.krld.batyushka.scene2d.draw.DamageLabel;
-import com.krld.batyushka.scene2d.model.FireBall;
-import com.krld.batyushka.scene2d.model.MyStage;
-import com.krld.batyushka.scene2d.model.staticobjects.StaticObject;
+import batyushka.Engine;
+import batyushka.draw.DamageLabel;
+import batyushka.model.FireBall;
+import batyushka.model.MyStage;
+import batyushka.model.staticobjects.StaticObject;
 
 public abstract class MyUnit extends Actor {
     private static final float RANDOM_PART_DAMAGE = 0.3f;
@@ -183,9 +183,15 @@ public abstract class MyUnit extends Actor {
 
         if (!missX) {
             x = xTmp;
-        }
+        }//TODO PATH FINDING
+        /*else if (velocity[1] == 0){
+            y += speed;
+        }*/
         if (!missY) {
             y = yTmp;
-        }
+        }  //TODO PATH FINDING
+        /*else if (velocity[0] == 0){
+            x += speed;
+        }*/
     }
 }

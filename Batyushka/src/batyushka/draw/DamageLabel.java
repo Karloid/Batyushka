@@ -1,10 +1,10 @@
-package com.krld.batyushka.scene2d.draw;
+package batyushka.draw;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.krld.batyushka.scene2d.Engine;
-import com.krld.batyushka.scene2d.model.MyStage;
-import com.krld.batyushka.scene2d.model.units.MyUnit;
+import batyushka.Engine;
+import batyushka.model.MyStage;
+import batyushka.model.units.MyUnit;
 
 public class DamageLabel extends MyUnit {
     private final String damage;

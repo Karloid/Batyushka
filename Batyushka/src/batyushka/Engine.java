@@ -1,4 +1,4 @@
-package com.krld.batyushka.scene2d;
+package batyushka;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.krld.batyushka.scene2d.model.MyStage;
+import batyushka.model.MyStage;
 
 /**
  * Движок игры. Он обрабатывает только события для приложения - открытие, закрытие, изменение размера и т. п.

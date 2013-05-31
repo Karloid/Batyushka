@@ -1,10 +1,10 @@
-package com.krld.batyushka.scene2d.model.staticobjects;
+package batyushka.model.staticobjects;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.krld.batyushka.scene2d.model.MyStage;
+import batyushka.model.MyStage;
 
 public class AppleTree extends StaticObject {
     private static TextureRegion texture;

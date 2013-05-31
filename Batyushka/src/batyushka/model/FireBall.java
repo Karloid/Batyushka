@@ -1,11 +1,11 @@
-package com.krld.batyushka.scene2d.model;
+package batyushka.model;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.krld.batyushka.scene2d.model.units.MyUnit;
+import batyushka.model.units.MyUnit;
 
 public class FireBall extends Actor {
     private static final float SPEED = 10;

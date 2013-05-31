@@ -1,4 +1,4 @@
-package com.krld.batyushka.scene2d;
+package batyushka;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 

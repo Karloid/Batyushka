@@ -1,4 +1,4 @@
-package com.krld.batyushka.scene2d.draw;
+package batyushka.draw;
 
 public class DrawHelper {
     public static final float BUTTON_X = 100;

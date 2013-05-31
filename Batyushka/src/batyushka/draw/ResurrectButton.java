@@ -1,12 +1,12 @@
-package com.krld.batyushka.scene2d.draw;
+package batyushka.draw;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.krld.batyushka.scene2d.model.MyStage;
-import com.krld.batyushka.scene2d.model.units.Player;
+import batyushka.model.MyStage;
+import batyushka.model.units.Player;
 
 public class ResurrectButton extends Actor {
     private static TextureRegion texture;

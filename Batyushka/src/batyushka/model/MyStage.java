@@ -1,22 +1,22 @@
-package com.krld.batyushka.scene2d.model;
+package batyushka.model;
 
+import batyushka.StageGenerator;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.krld.batyushka.scene2d.Engine;
-import com.krld.batyushka.scene2d.model.staticobjects.AppleTree;
-import com.krld.batyushka.scene2d.model.tiles.GrassFlowersTile;
-import com.krld.batyushka.scene2d.model.tiles.GrassFlowersTile2;
-import com.krld.batyushka.scene2d.model.tiles.GrassTile;
-import com.krld.batyushka.scene2d.model.tiles.Tile;
-import com.krld.batyushka.scene2d.model.units.MyUnit;
-import com.krld.batyushka.scene2d.model.units.Player;
-import com.krld.batyushka.scene2d.model.units.Rabbit;
-import com.krld.batyushka.scene2d.model.units.Wolf;
+import batyushka.Engine;
+import batyushka.model.staticobjects.AppleTree;
+import batyushka.model.staticobjects.Wall;
+import batyushka.model.tiles.GrassFlowersTile;
+import batyushka.model.tiles.GrassFlowersTile2;
+import batyushka.model.tiles.GrassTile;
+import batyushka.model.tiles.Tile;
+import batyushka.model.units.MyUnit;
+import batyushka.model.units.Player;
+import batyushka.model.units.Rabbit;
+import batyushka.model.units.Wolf;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -26,9 +26,9 @@ import java.util.Set;
 public class MyStage extends Stage {
     private ShapeRenderer renderer;
     private static final int SIZE = 100;
-    private static final short TILE_SIZE = 64;
+    public static final short TILE_SIZE = 64;
     private final byte[][] tileMap = new byte[SIZE][SIZE];
-    private Player player;
+    public Player player;
     private List<FireBall> fireBalls;
     private List<MyUnit> units;
     private List<MyUnit> staticObjects;
@@ -38,20 +38,9 @@ public class MyStage extends Stage {
     public MyStage(int windowWidth, int windowHeight, boolean b, SpriteBatch batch) {
         super(windowWidth, windowHeight, b, batch);
         renderer = new ShapeRenderer();
-        Texture textureAtlas = new Texture(Gdx.files.internal("batyushka/res/character.png"));
-        TextureRegion characterTexture = new TextureRegion(textureAtlas, 0, 0, 32, 32);
-
-        generateWorld();
-        setFireBalls(new ArrayList<FireBall>());
-        units = new ArrayList<MyUnit>();
-        player = new Player(50 * TILE_SIZE, 50 * TILE_SIZE, characterTexture);
-        Wolf wolf = new Wolf(53 * TILE_SIZE, 53 * TILE_SIZE);
-        units.add(wolf);
-        addActor(wolf);
-        addActor(getPlayer());
-        //   wolf.action(new FadeOut().);
+       // generateWorld();
+        StageGenerator.generateStage("level_01", this);
         setKeyboardFocus(getPlayer());
-        //    world.
     }
 
     private void generateWorld() {
@@ -70,6 +59,13 @@ public class MyStage extends Stage {
             //System.out.println("add tree");
             addActor(myUnit);
         }
+        setFireBalls(new ArrayList<FireBall>());
+        units = new ArrayList<MyUnit>();
+        player = new Player(50 * TILE_SIZE, 50 * TILE_SIZE);
+        Wolf wolf = new Wolf(53 * TILE_SIZE, 53 * TILE_SIZE);
+        units.add(wolf);
+        addActor(wolf);
+        addActor(getPlayer());
     }
 
     private void addTile(byte b, int x, int y) {
@@ -198,9 +194,7 @@ public class MyStage extends Stage {
 
     public void resurrectPlayer() {
         //   player.remove();
-        Texture textureAtlas = new Texture(Gdx.files.internal("batyushka/res/character.png"));
-        TextureRegion characterTexture = new TextureRegion(textureAtlas, 0, 0, 32, 32);
-        player = new Player(50 * TILE_SIZE, 50 * TILE_SIZE, characterTexture);
+        player = new Player(50 * TILE_SIZE, 50 * TILE_SIZE);
         addActor(getPlayer());
     }
 
@@ -215,5 +209,24 @@ public class MyStage extends Stage {
 
     public void setStaticObjects(List<MyUnit> staticObjects) {
         this.staticObjects = staticObjects;
+    }
+
+    public void createWall(float x, float y) {
+        MyUnit unit = null;
+        unit = new Wall((int)x,(int)y);
+        staticObjects.add(unit);
+        addActor(unit);
+        //TODO sorting actors on Y axis
+        player.remove();
+        addActor(player);
+
+    }
+
+    public void setTiles(ArrayList<Tile> tiles) {
+        this.tiles = tiles;
+    }
+
+    public void setUnits(ArrayList<MyUnit> units) {
+        this.units = units;
     }
 }

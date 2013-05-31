@@ -1,0 +1,16 @@
+r - unit
+g - tile
+b - static object
+
+units:
+255 - Player spawn
+
+tile:
+255 - grass
+100 - wooden floor
+130 - road
+
+static object:
+100 - wall
+255 - appleTree
+167 - fir

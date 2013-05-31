@@ -1,4 +1,4 @@
-package com.krld.batyushka.scene2d.model.units;
+package batyushka.model.units;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
@@ -6,21 +6,23 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.krld.batyushka.scene2d.draw.ResurrectButton;
-import com.krld.batyushka.scene2d.model.FireBall;
-import com.krld.batyushka.scene2d.model.MyStage;
+import batyushka.draw.ResurrectButton;
+import batyushka.model.FireBall;
+import batyushka.model.MyStage;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class Player extends MyUnit {
     public static final int SPEED = 2;
-    private final TextureRegion texture;
+    private static final TextureRegion texture;
     private boolean isMoving;
     private static TextureRegion deadTexture;
     static {
         deadTexture = new TextureRegion(new Texture(Gdx.files.internal("batyushka/res/deadCharacter.png")), 0, 0, 32, 32);
+        texture = new TextureRegion(new Texture(Gdx.files.internal("batyushka/res/character.png")), 0, 0, 32, 32);
     }
+
 
     public short killCount;
 
@@ -29,14 +31,13 @@ public class Player extends MyUnit {
      * Она будет необходима нам для выставления фокуса скроллинга и фокуса ввода с клавиатуры
      */
 
-    public Player(int x, int y, TextureRegion texture) {
+    public Player(int x, int y) {
         super(x, y);
         this.velocity = new short[2];
         this.x = x;
         this.y = y;
         this.width = 64;
         this.height = 64;
-        this.texture = texture;
         this.killCount = 0;
     }
 
@@ -92,7 +93,8 @@ public class Player extends MyUnit {
             castFireBall(x, y);
         }
         if (pointer == 2) {
-            ((MyStage) getStage()).spawnUnits(x + this.x, -y + this.y);
+         //   ((MyStage) getStage()).spawnUnits(x + this.x, -y + this.y);
+           ((MyStage) getStage()).createWall(x + this.x, -y + this.y);
         }
         return true;
     }
