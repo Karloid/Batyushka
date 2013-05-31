@@ -36,6 +36,12 @@ public class Rabbit extends MyUnit {
         super.update(deltaTime);
     }
 
+    public static final int AGR_SPEED = 1;
+    @Override
+    protected short getAgrSpeed() {
+        return AGR_SPEED;
+    }
+
 
     @Override
     public void draw(SpriteBatch batch, float parentAlpha) {

@@ -200,8 +200,8 @@ public class MyStage extends Stage {
     }
 
     public static boolean isCameraView(Stage stage, float x, float y) {
-        return stage.getCamera().position.x - 600 < x && stage.getCamera().position.y - 400 < y &&
-                stage.getCamera().position.x + 600 > x && stage.getCamera().position.y + 400 > y;
+        return stage.getCamera().position.x - 650 < x && stage.getCamera().position.y - 450 < y &&
+                stage.getCamera().position.x + 650 > x && stage.getCamera().position.y + 450 > y;
     }
 
     public List<MyUnit> getStaticObjects() {

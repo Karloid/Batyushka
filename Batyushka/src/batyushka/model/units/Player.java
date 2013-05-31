@@ -73,6 +73,10 @@ public class Player extends MyUnit {
         }
     }
 
+    @Override
+    protected short getAgrSpeed() {
+        return 0;
+    }
 
 
     @Override

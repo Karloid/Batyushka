@@ -32,6 +32,11 @@ public class DamageLabel extends MyUnit {
     }
 
     @Override
+    protected short getAgrSpeed() {
+        return 0;
+    }
+
+    @Override
     public void draw(SpriteBatch batch, float parentAlpha) {
         updatePosition();
         //   batch.draw(texture, x - 32, y - 32, originX, originY, width, height, 1, 1, rotation);

@@ -12,7 +12,6 @@ public abstract class MyUnit extends Actor {
     private static final long MIN_TIME_MOVING = 1000;
     public static final int AGR_DISTANCE = 200;
     private static final short ATTACK_DELAY = 1000;
-    public static final int AGR_SPEED = 3;
     public static final int PEACEFULL_SPEED = 2;
     public static final int COLLISIONS_WIDTH = Engine.TILE_SIZE - 16;
     public boolean isDead = false;
@@ -90,7 +89,9 @@ public abstract class MyUnit extends Actor {
         float xRelative = x - unit.x;
         float absX = Math.abs(xRelative);
         float absY = Math.abs(yRelative);
-        if ((absX < AGR_DISTANCE && absY < AGR_DISTANCE) || isAgred) {
+        if ((absX < getAgrDistance() && absY < getAgrDistance()) || isAgred) {
+            isAgred = true;
+            speed = getAgrSpeed();
             if (absX < 32 && absY < 32) {
                 stopMove();
                 attack(unit);
@@ -99,10 +100,14 @@ public abstract class MyUnit extends Actor {
             }
             updatePosWithCheckCollisions();
             //updatePosition();
-            isAgred = true;
+
             return true;
         }
         return false;
+    }
+
+    public float getAgrDistance() {
+        return AGR_DISTANCE;
     }
 
     private void attack(MyUnit unit) {
@@ -148,7 +153,7 @@ public abstract class MyUnit extends Actor {
             //     this.remove();
         } else {
             isAgred = true;
-            speed = AGR_SPEED;
+            speed = getAgrSpeed();
             agrNearestUnits();
         }
     }
@@ -157,10 +162,12 @@ public abstract class MyUnit extends Actor {
         for (MyUnit unit : ((MyStage) getStage()).getUnits()) {
             if (Math.abs(unit.x - this.x) < AGR_DISTANCE && Math.abs(unit.y - this.y) < AGR_DISTANCE) {
                 unit.isAgred = true;
-                unit.speed = AGR_SPEED;
+                unit.speed = getAgrSpeed();
             }
         }
     }
+
+    protected abstract short getAgrSpeed();
 
 
     @Override

@@ -1,16 +1,10 @@
 package batyushka;
 
-import batyushka.model.staticobjects.Bed;
 import batyushka.model.FireBall;
 import batyushka.model.MyStage;
-import batyushka.model.staticobjects.AppleTree;
-import batyushka.model.staticobjects.FirTree;
-import batyushka.model.staticobjects.Wall;
+import batyushka.model.staticobjects.*;
 import batyushka.model.tiles.*;
-import batyushka.model.units.MyUnit;
-import batyushka.model.units.Player;
-import batyushka.model.units.Rabbit;
-import batyushka.model.units.Wolf;
+import batyushka.model.units.*;
 
 import javax.imageio.ImageIO;
 import java.awt.geom.AffineTransform;
@@ -93,6 +87,8 @@ public class StageGenerator {
             units.add(new Wolf(x * stage.TILE_SIZE, y * MyStage.TILE_SIZE));
         } else if (red == 150) {
             units.add(new Rabbit(x * stage.TILE_SIZE, y * MyStage.TILE_SIZE));
+        } else if (red == 144) {
+            units.add(new Skeleton(x * stage.TILE_SIZE, y * MyStage.TILE_SIZE));
         }
 
         // TILES
@@ -102,6 +98,8 @@ public class StageGenerator {
             tiles.add(new WoodenFloor(x * stage.TILE_SIZE, y * MyStage.TILE_SIZE));
         } else if (green == 130) {
             tiles.add(new DirtyRoad(x * stage.TILE_SIZE, y * MyStage.TILE_SIZE));
+        } else if (green == 110) {
+            tiles.add(new WallGate(x * stage.TILE_SIZE, y * MyStage.TILE_SIZE));
         }
         // STATIC OBJECTS
         if (blue == 255) {
@@ -112,6 +110,8 @@ public class StageGenerator {
             staticObjects.add(new Wall(x * MyStage.TILE_SIZE, y * MyStage.TILE_SIZE));
         } else if (blue == 200) {
             staticObjects.add(new Bed(x * MyStage.TILE_SIZE, y * MyStage.TILE_SIZE));
+        } else if (blue == 174) {
+            staticObjects.add(new Chest(x * MyStage.TILE_SIZE, y * MyStage.TILE_SIZE));
         }
     }
 

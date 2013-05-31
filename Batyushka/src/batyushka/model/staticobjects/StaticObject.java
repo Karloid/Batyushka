@@ -7,7 +7,7 @@ import batyushka.model.units.MyUnit;
 
 public abstract class StaticObject extends MyUnit {
 
-    public static final float DAMAGE_DECREASE = 0.7f;
+    public static final float DAMAGE_DECREASE = 0.5f;
 
     public StaticObject(int x, int y) {
         this.x = x;
@@ -18,6 +18,11 @@ public abstract class StaticObject extends MyUnit {
         damageMultipliyer = DAMAGE_DECREASE;
 
 
+    }
+
+    @Override
+    protected short getAgrSpeed() {
+        return 0;
     }
 
     @Override

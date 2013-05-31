@@ -1,32 +1,32 @@
 package batyushka.model.units;
 
+import batyushka.Engine;
+import batyushka.model.MyStage;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import batyushka.Engine;
-import batyushka.model.MyStage;
 
-public class Wolf extends MyUnit {
+public class Skeleton extends MyUnit {
 
     // private static short damage = 10;
     private static final TextureRegion texture;
-
+    public static final int AGR_DISTANCE = 500;
     private static TextureRegion deadTexture;
 
     static {
-        texture = new TextureRegion(new Texture(Gdx.files.internal("batyushka/res/wolf.png")), 0, 0, 32, 32);
-        deadTexture = new TextureRegion(new Texture(Gdx.files.internal("batyushka/res/wolfDead.png")), 0, 0, 32, 32);
+        texture = new TextureRegion(new Texture(Gdx.files.internal("batyushka/res/skeleton.png")), 0, 0, 32, 32);
+        deadTexture = new TextureRegion(new Texture(Gdx.files.internal("batyushka/res/skeletonDead.png")), 0, 0, 32, 32);
     }
 
-    private static final short MAX_HITPOINTS = 80;
+    private static final short MAX_HITPOINTS = 30;
 
-    public Wolf(int x, int y) {
+    public Skeleton(int x, int y) {
         super(x, y);
-        this.damage = 15;
+        this.damage = 10;
         this.hitpoint = MAX_HITPOINTS;
-        this.speed = PEACEFULL_SPEED;
+        this.speed = 1;
     }
 
 
@@ -62,11 +62,14 @@ public class Wolf extends MyUnit {
     public Actor hit(float x, float y) {
         return null;
     }
-
-    public static final int AGR_SPEED = 3;
-
+    public static final int AGR_SPEED = 2;
     @Override
     protected short getAgrSpeed() {
         return AGR_SPEED;
+    }
+
+    @Override
+    public float getAgrDistance() {
+        return AGR_DISTANCE;
     }
 }
