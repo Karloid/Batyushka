@@ -1,5 +1,6 @@
 package batyushka;
 
+import batyushka.model.staticobjects.Bed;
 import batyushka.model.FireBall;
 import batyushka.model.MyStage;
 import batyushka.model.staticobjects.AppleTree;
@@ -8,6 +9,7 @@ import batyushka.model.staticobjects.Wall;
 import batyushka.model.tiles.*;
 import batyushka.model.units.MyUnit;
 import batyushka.model.units.Player;
+import batyushka.model.units.Rabbit;
 import batyushka.model.units.Wolf;
 
 import javax.imageio.ImageIO;
@@ -78,6 +80,7 @@ public class StageGenerator {
         units = new ArrayList<MyUnit>();
 
         stage.player = player;
+
         stage.addActor(player);
     }
 
@@ -85,8 +88,11 @@ public class StageGenerator {
         // UNITS
         if (red == 255) {
             player = new Player(x * MyStage.TILE_SIZE, y * MyStage.TILE_SIZE);
-        }  else if (red == 200) {
+            stage.resurrectPoint = new int[]{x, y};
+        } else if (red == 200) {
             units.add(new Wolf(x * stage.TILE_SIZE, y * MyStage.TILE_SIZE));
+        } else if (red == 150) {
+            units.add(new Rabbit(x * stage.TILE_SIZE, y * MyStage.TILE_SIZE));
         }
 
         // TILES
@@ -104,6 +110,8 @@ public class StageGenerator {
             staticObjects.add(new FirTree(x * MyStage.TILE_SIZE, y * MyStage.TILE_SIZE));
         } else if (blue == 100) {
             staticObjects.add(new Wall(x * MyStage.TILE_SIZE, y * MyStage.TILE_SIZE));
+        } else if (blue == 200) {
+            staticObjects.add(new Bed(x * MyStage.TILE_SIZE, y * MyStage.TILE_SIZE));
         }
     }
 

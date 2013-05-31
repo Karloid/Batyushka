@@ -149,6 +149,16 @@ public abstract class MyUnit extends Actor {
         } else {
             isAgred = true;
             speed = AGR_SPEED;
+            agrNearestUnits();
+        }
+    }
+
+    private void agrNearestUnits() {
+        for (MyUnit unit : ((MyStage) getStage()).getUnits()) {
+            if (Math.abs(unit.x - this.x) < AGR_DISTANCE && Math.abs(unit.y - this.y) < AGR_DISTANCE) {
+                unit.isAgred = true;
+                unit.speed = AGR_SPEED;
+            }
         }
     }
 

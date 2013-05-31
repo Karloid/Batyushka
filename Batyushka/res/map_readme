@@ -2,15 +2,21 @@ r - unit
 g - tile
 b - static object
 
+RED
 units:
 255 - Player spawn
+200 - wolf
+150 - rabbit
 
+GREEN
 tile:
 255 - grass
 100 - wooden floor
 130 - road
 
+BLUE
 static object:
 100 - wall
 255 - appleTree
 167 - fir
+200 - bed

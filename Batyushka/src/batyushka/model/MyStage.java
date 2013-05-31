@@ -33,6 +33,7 @@ public class MyStage extends Stage {
     private List<MyUnit> units;
     private List<MyUnit> staticObjects;
     private List<Tile> tiles;
+    public int[] resurrectPoint;
 
 
     public MyStage(int windowWidth, int windowHeight, boolean b, SpriteBatch batch) {
@@ -194,7 +195,7 @@ public class MyStage extends Stage {
 
     public void resurrectPlayer() {
         //   player.remove();
-        player = new Player(50 * TILE_SIZE, 50 * TILE_SIZE);
+        player = new Player(resurrectPoint[0] * TILE_SIZE, resurrectPoint[1] * TILE_SIZE);
         addActor(getPlayer());
     }
 

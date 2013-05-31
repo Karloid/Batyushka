@@ -1,20 +1,19 @@
 package batyushka.model.staticobjects;
 
+import batyushka.model.MyStage;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import batyushka.model.MyStage;
 
-public class FirTree extends StaticObject {
-    private static TextureRegion texture;
+public class Bed extends StaticObject {
+    private static final TextureRegion texture;
 
     static {
-        texture = new TextureRegion(new Texture(Gdx.files.internal("batyushka/res/fir.png")), 0, 0, 32, 32);
+        texture = new TextureRegion(new Texture(Gdx.files.internal("batyushka/res/bed.png")), 0, 0, 32, 32);
     }
-
-    public FirTree(int x, int y) {
-        super(x, y);
+    public Bed(int x, int y) {
+        super(x,y);
     }
 
     @Override

@@ -29,7 +29,6 @@ public abstract class StaticObject extends MyUnit {
         dropSomething();
         ((MyStage)stage).getStaticObjects().remove(this);
         remove();
-
     }
 
     protected abstract void dropSomething();
