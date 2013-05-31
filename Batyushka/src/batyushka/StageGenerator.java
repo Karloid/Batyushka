@@ -8,6 +8,7 @@ import batyushka.model.staticobjects.Wall;
 import batyushka.model.tiles.*;
 import batyushka.model.units.MyUnit;
 import batyushka.model.units.Player;
+import batyushka.model.units.Wolf;
 
 import javax.imageio.ImageIO;
 import java.awt.geom.AffineTransform;
@@ -81,17 +82,19 @@ public class StageGenerator {
     }
 
     private static void handleMapPixel(int red, int green, int blue, int x, int y) {
-        // TILES
+        // UNITS
         if (red == 255) {
             player = new Player(x * MyStage.TILE_SIZE, y * MyStage.TILE_SIZE);
+        }  else if (red == 200) {
+            units.add(new Wolf(x * stage.TILE_SIZE, y * MyStage.TILE_SIZE));
         }
 
-        // UNITS
+        // TILES
         if (green == 255) {
             generateGrass(x, y);
         } else if (green == 100) {
             tiles.add(new WoodenFloor(x * stage.TILE_SIZE, y * MyStage.TILE_SIZE));
-        }   else if (green == 130) {
+        } else if (green == 130) {
             tiles.add(new DirtyRoad(x * stage.TILE_SIZE, y * MyStage.TILE_SIZE));
         }
         // STATIC OBJECTS
