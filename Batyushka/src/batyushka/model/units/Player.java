@@ -18,9 +18,18 @@ public class Player extends MyUnit {
     private static final TextureRegion texture;
     private boolean isMoving;
     private static TextureRegion deadTexture;
+    private short maxHitpoints;
+
+    @Override
+    public short getMaxHitpoints() {
+        return maxHitpoints;
+    }
+
     static {
-        deadTexture = new TextureRegion(new Texture(Gdx.files.internal("batyushka/res/deadCharacter.png")), 0, 0, 32, 32);
-        texture = new TextureRegion(new Texture(Gdx.files.internal("batyushka/res/character.png")), 0, 0, 32, 32);
+        deadTexture = new TextureRegion(new Texture(Gdx.files.internal("batyushka/res/batyushkaDead.png")), 0, 0, 32, 32);
+     //   deadTexture = new TextureRegion(new Texture(Gdx.files.internal("batyushka/res/deadCharacter.png")), 0, 0, 32, 32);
+    //    texture = new TextureRegion(new Texture(Gdx.files.internal("batyushka/res/character.png")), 0, 0, 32, 32);
+        texture = new TextureRegion(new Texture(Gdx.files.internal("batyushka/res/batyushka.png")), 0, 0, 32, 32);
     }
 
 
@@ -39,6 +48,7 @@ public class Player extends MyUnit {
         this.width = 64;
         this.height = 64;
         this.killCount = 0;
+        this.maxHitpoints = 110;
     }
 
     @Override
@@ -98,7 +108,7 @@ public class Player extends MyUnit {
         }
         if (pointer == 2) {
          //   ((MyStage) getStage()).spawnUnits(x + this.x, -y + this.y);
-           ((MyStage) getStage()).createWall(x + this.x, -y + this.y);
+         //  ((MyStage) getStage()).createWall(x + this.x, -y + this.y);
         }
         return true;
     }

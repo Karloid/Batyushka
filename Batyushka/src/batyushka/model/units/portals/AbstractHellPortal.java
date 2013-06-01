@@ -1,52 +1,70 @@
-package batyushka.model.units;
+package batyushka.model.units.portals;
 
 import batyushka.Engine;
 import batyushka.model.MyStage;
+import batyushka.model.units.MyUnit;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
-public class Skeleton extends MyUnit {
-
-    // private static short damage = 10;
+public abstract class AbstractHellPortal extends MyUnit {
     private static final TextureRegion texture;
-    public static final int AGR_DISTANCE = 400;
+
     private static TextureRegion deadTexture;
 
     static {
-        texture = new TextureRegion(new Texture(Gdx.files.internal("batyushka/res/skeleton.png")), 0, 0, 32, 32);
-        deadTexture = new TextureRegion(new Texture(Gdx.files.internal("batyushka/res/skeletonDead.png")), 0, 0, 32, 32);
+        texture = new TextureRegion(new Texture(Gdx.files.internal("batyushka/res/hellPortal.png")), 0, 0, 32, 32);
+        deadTexture = new TextureRegion(new Texture(Gdx.files.internal("batyushka/res/hellPortalDead.png")), 0, 0, 32, 32);
     }
 
-    private static final short MAX_HITPOINTS = 35;
-    private /*static*/ boolean missUpdate;
+    private static final short MAX_HITPOINTS = 350;
+    private long lastSpawnTime;
 
-    public Skeleton(int x, int y) {
+    public AbstractHellPortal(int x, int y) {
         super(x, y);
-        this.damage = 10;
+        this.damage = 0;
         this.hitpoint = MAX_HITPOINTS;
-        this.speed = 1;
+        this.speed = 0;
+        this.peacefullSpeed = 0;
     }
 
 
     @Override
     protected void update(float deltaTime) {
+
         if (isDead) {
             return;
         }
-        // TODO slow skeletons
-        if (missUpdate) {
-            missUpdate = false;
+        if (!MyStage.isCameraView(stage, x, y)) {
             return;
-        } else {
-            missUpdate = true;
         }
-        Player player = ((MyStage) getStage()).getPlayer();
-        if (!chaseAndAttack(player)) {
-            super.update(deltaTime);
+        if (hitpoint <= 0) {
+            isDead = true;
+            ((MyStage)stage).getUnits().remove(this);
+            return;
         }
+        spawnSomething();
+      //  super.update(deltaTime);
+    }
+
+    private void spawnSomething() {
+        if (System.currentTimeMillis() - lastSpawnTime > getSpawnDelay()) {
+            spawnCreeps();
+            lastSpawnTime = System.currentTimeMillis();
+        }
+    }
+
+    protected abstract long getSpawnDelay();
+
+    protected abstract void spawnCreeps();
+
+    public static final int AGR_SPEED = 0;
+
+    @Override
+    protected short getAgrSpeed() {
+        return AGR_SPEED;
     }
 
 
@@ -69,17 +87,5 @@ public class Skeleton extends MyUnit {
     @Override
     public Actor hit(float x, float y) {
         return null;
-    }
-
-    public static final int AGR_SPEED = 2;
-
-    @Override
-    protected short getAgrSpeed() {
-        return AGR_SPEED;
-    }
-
-    @Override
-    public float getAgrDistance() {
-        return AGR_DISTANCE;
     }
 }

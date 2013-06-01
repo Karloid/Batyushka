@@ -1,5 +1,6 @@
 package batyushka.model.units;
 
+import batyushka.model.FireBall;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -8,7 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import batyushka.Engine;
 import batyushka.model.MyStage;
 
-public class Rabbit extends MyUnit {
+public class Rabbit extends MyUnit implements Allied {
     private static final TextureRegion texture;
 
     private static TextureRegion deadTexture;
@@ -24,7 +25,7 @@ public class Rabbit extends MyUnit {
         super(x, y);
         this.damage = 0;
         this.hitpoint = MAX_HITPOINTS;
-        this.speed = PEACEFULL_SPEED;
+        this.speed = peacefullSpeed;
     }
 
 
@@ -58,6 +59,10 @@ public class Rabbit extends MyUnit {
         }
     }
 
+    @Override
+    public void fireBallHit(FireBall fireBall) {
+        this.heal((short) (fireBall.DAMAGE * 0.4f));
+    }
 
     @Override
     public Actor hit(float x, float y) {

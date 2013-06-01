@@ -1,18 +1,20 @@
 package batyushka.model.units;
 
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import batyushka.Engine;
 import batyushka.draw.DamageLabel;
+import batyushka.draw.HealLabel;
 import batyushka.model.FireBall;
 import batyushka.model.MyStage;
 import batyushka.model.staticobjects.StaticObject;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 
 public abstract class MyUnit extends Actor {
     private static final float RANDOM_PART_DAMAGE = 0.3f;
     private static final long MIN_TIME_MOVING = 1000;
     public static final int AGR_DISTANCE = 200;
     private static final short ATTACK_DELAY = 1000;
-    public static final int PEACEFULL_SPEED = 2;
+    private static final short MAX_HITPOINTS = 100;
+    public short peacefullSpeed = 2;
     public static final int COLLISIONS_WIDTH = Engine.TILE_SIZE - 16;
     public boolean isDead = false;
     protected short[] velocity;
@@ -82,7 +84,7 @@ public abstract class MyUnit extends Actor {
         }
         if (unit.hitpoint <= 0) {
             isAgred = false;
-            speed = PEACEFULL_SPEED;
+            speed = peacefullSpeed;
             return false;
         }
         float yRelative = y - unit.y;
@@ -181,34 +183,55 @@ public abstract class MyUnit extends Actor {
         }
         float xTmp = x + velocity[0];
         float yTmp = y + velocity[1];
-        boolean missX = false;
-        boolean missY = false;
+        boolean blockX = false;
+        boolean blockY = false;
         for (MyUnit myUnit : ((MyStage) stage).getStaticObjects()) {
-            if (!missX && Math.abs(myUnit.x - xTmp) < COLLISIONS_WIDTH && Math.abs(myUnit.y - y) < COLLISIONS_WIDTH) {
-                missX = true;
-                if (missX && missY) {
+            if (!blockX && Math.abs(myUnit.x - xTmp) < COLLISIONS_WIDTH && Math.abs(myUnit.y - y) < COLLISIONS_WIDTH) {
+                blockX = true;
+                if (blockX && blockY) {
                     return;
                 }
             }
-            if (!missY && Math.abs(myUnit.y - yTmp) < COLLISIONS_WIDTH && Math.abs(myUnit.x - x) < COLLISIONS_WIDTH) {
-                missY = true;
-                if (missX && missY) {
+            if (!blockY && Math.abs(myUnit.y - yTmp) < COLLISIONS_WIDTH && Math.abs(myUnit.x - x) < COLLISIONS_WIDTH) {
+                blockY = true;
+                if (blockX && blockY) {
                     return;
                 }
             }
         }
 
-        if (!missX) {
+        if (!blockX) {
             x = xTmp;
         }//TODO PATH FINDING
-        /*else if (velocity[1] == 0){
-            y += speed;
-        }*/
-        if (!missY) {
+        else if (velocity[1] == 0) {
+            if (((MyStage) getStage()).player.y - y > 0) {
+                y += speed;
+            } else {
+                y -= speed;
+            }
+        }
+        if (!blockY) {
             y = yTmp;
         }  //TODO PATH FINDING
-        /*else if (velocity[0] == 0){
-            x += speed;
-        }*/
+        else if (velocity[0] == 0) {
+            if (((MyStage) getStage()).player.x - x > 0) {
+                x += speed;
+            } else {
+                x -= speed;
+            }
+        }
+    }
+
+    public void heal(short healValue) {
+        this.hitpoint += healValue;
+        getStage().addActor(new HealLabel(this.x, this.y, healValue));
+        if (this.hitpoint > getMaxHitpoints()) {
+            this.hitpoint = getMaxHitpoints();
+        }
+
+    }
+
+    public short getMaxHitpoints() {
+        return MAX_HITPOINTS;
     }
 }

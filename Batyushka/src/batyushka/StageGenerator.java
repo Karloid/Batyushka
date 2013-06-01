@@ -5,6 +5,7 @@ import batyushka.model.MyStage;
 import batyushka.model.staticobjects.*;
 import batyushka.model.tiles.*;
 import batyushka.model.units.*;
+import batyushka.model.units.portals.WeakPortal;
 
 import javax.imageio.ImageIO;
 import java.awt.geom.AffineTransform;
@@ -88,7 +89,11 @@ public class StageGenerator {
         } else if (red == 150) {
             units.add(new Rabbit(x * stage.TILE_SIZE, y * MyStage.TILE_SIZE));
         } else if (red == 144) {
-            units.add(new Skeleton(x * stage.TILE_SIZE, y * MyStage.TILE_SIZE));
+            units.add(new Skeleton(x * MyStage.TILE_SIZE, y * MyStage.TILE_SIZE));
+        }else if (red == 160) {
+            units.add(new WeakPortal(x * stage.TILE_SIZE, y * MyStage.TILE_SIZE));
+        }   else if (red == 165) {
+            units.add(new WeakDemon(x * stage.TILE_SIZE, y * MyStage.TILE_SIZE));
         }
 
         // TILES
@@ -100,7 +105,10 @@ public class StageGenerator {
             tiles.add(new DirtyRoad(x * stage.TILE_SIZE, y * MyStage.TILE_SIZE));
         } else if (green == 110) {
             tiles.add(new WallGate(x * stage.TILE_SIZE, y * MyStage.TILE_SIZE));
+        } else if (green == 120) {
+            tiles.add(new WallArc(x * stage.TILE_SIZE, y * MyStage.TILE_SIZE));
         }
+
         // STATIC OBJECTS
         if (blue == 255) {
             staticObjects.add(new AppleTree(x * MyStage.TILE_SIZE, y * MyStage.TILE_SIZE));
@@ -112,6 +120,12 @@ public class StageGenerator {
             staticObjects.add(new Bed(x * MyStage.TILE_SIZE, y * MyStage.TILE_SIZE));
         } else if (blue == 174) {
             staticObjects.add(new Chest(x * MyStage.TILE_SIZE, y * MyStage.TILE_SIZE));
+        } else if (blue == 120) {
+            staticObjects.add(new WallWindow(x * MyStage.TILE_SIZE, y * MyStage.TILE_SIZE));
+        } else if (blue == 180) {
+            staticObjects.add(new Forge(x * MyStage.TILE_SIZE, y * MyStage.TILE_SIZE));
+        } else if (blue == 130) {
+            staticObjects.add(new WallCrest(x * MyStage.TILE_SIZE, y * MyStage.TILE_SIZE));
         }
     }
 

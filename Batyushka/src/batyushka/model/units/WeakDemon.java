@@ -8,24 +8,23 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
-public class Skeleton extends MyUnit {
+public class WeakDemon extends MyUnit {
 
     // private static short damage = 10;
     private static final TextureRegion texture;
-    public static final int AGR_DISTANCE = 400;
+    public static final int AGR_DISTANCE = 450;
     private static TextureRegion deadTexture;
 
     static {
-        texture = new TextureRegion(new Texture(Gdx.files.internal("batyushka/res/skeleton.png")), 0, 0, 32, 32);
-        deadTexture = new TextureRegion(new Texture(Gdx.files.internal("batyushka/res/skeletonDead.png")), 0, 0, 32, 32);
+        texture = new TextureRegion(new Texture(Gdx.files.internal("batyushka/res/weakDemon.png")), 0, 0, 32, 32);
+        deadTexture = new TextureRegion(new Texture(Gdx.files.internal("batyushka/res/weakDemonDead.png")), 0, 0, 32, 32);
     }
 
-    private static final short MAX_HITPOINTS = 35;
-    private /*static*/ boolean missUpdate;
+    private static final short MAX_HITPOINTS = 60;
 
-    public Skeleton(int x, int y) {
+    public WeakDemon(int x, int y) {
         super(x, y);
-        this.damage = 10;
+        this.damage = 15;
         this.hitpoint = MAX_HITPOINTS;
         this.speed = 1;
     }
@@ -35,13 +34,6 @@ public class Skeleton extends MyUnit {
     protected void update(float deltaTime) {
         if (isDead) {
             return;
-        }
-        // TODO slow skeletons
-        if (missUpdate) {
-            missUpdate = false;
-            return;
-        } else {
-            missUpdate = true;
         }
         Player player = ((MyStage) getStage()).getPlayer();
         if (!chaseAndAttack(player)) {
@@ -70,12 +62,15 @@ public class Skeleton extends MyUnit {
     public Actor hit(float x, float y) {
         return null;
     }
-
     public static final int AGR_SPEED = 2;
-
     @Override
     protected short getAgrSpeed() {
         return AGR_SPEED;
+    }
+
+    @Override
+    public short getMaxHitpoints() {
+        return MAX_HITPOINTS;
     }
 
     @Override

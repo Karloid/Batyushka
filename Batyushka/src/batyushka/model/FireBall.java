@@ -8,7 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import batyushka.model.units.MyUnit;
 
 public class FireBall extends Actor {
-    private static final float SPEED = 10;
+    private static final float SPEED = 5;
     public static final short DAMAGE = 20;
     public static final int LIFE_TIME = 400;
     private final long birthDate;
@@ -18,7 +18,7 @@ public class FireBall extends Actor {
         this.x = x;
         this.y = y;
         this.width = 16;
-        this.height = 16;
+        this.height = 32;
         velocity = new short[2];
         setupVelocity(toX, toY);
         birthDate = System.currentTimeMillis();
@@ -41,7 +41,8 @@ public class FireBall extends Actor {
     private static final TextureRegion texture;
 
     static {
-        texture = new TextureRegion(new Texture(Gdx.files.internal("batyushka/res/fireBall.png")), 0, 0, 8, 8);
+      //  texture = new TextureRegion(new Texture(Gdx.files.internal("batyushka/res/fireBall.png")), 0, 0, 8, 8);
+        texture = new TextureRegion(new Texture(Gdx.files.internal("batyushka/res/crest.png")), 0, 0, 8, 16);
     }
 
     @Override

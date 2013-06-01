@@ -26,7 +26,7 @@ public class Wolf extends MyUnit {
         super(x, y);
         this.damage = 15;
         this.hitpoint = MAX_HITPOINTS;
-        this.speed = PEACEFULL_SPEED;
+        this.speed = peacefullSpeed;
     }
 
 

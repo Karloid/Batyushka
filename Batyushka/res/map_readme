@@ -8,6 +8,8 @@ units:
 200 - wolf
 150 - rabbit
 144 - skeleton
+160 - skeleton portal
+144 - weakDemon
 
 GREEN
 tile:
@@ -15,11 +17,15 @@ tile:
 100 - wooden floor
 130 - road
 110 - wall gate
+120 - wall arc
 
 BLUE
 static object:
 100 - wall
+120 - wall window
+130 - wall crest
 255 - appleTree
 167 - fir
 200 - bed
 174 - chest
+180 - forge

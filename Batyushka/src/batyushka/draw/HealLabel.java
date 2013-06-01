@@ -1,8 +1,9 @@
 package batyushka.draw;
 
-public class DamageLabel extends AbstactLabel {
-    public DamageLabel(float x, float y, int damage) {
-        super(x, y, -damage);
+public class HealLabel extends AbstactLabel {
+
+    public HealLabel(float x, float y, int healValue) {
+        super(x, y, healValue);
     }
 
     @Override
@@ -12,11 +13,11 @@ public class DamageLabel extends AbstactLabel {
 
     @Override
     protected float getGreen() {
-        return 0.5f;
+        return 1;
     }
 
     @Override
     protected float getRed() {
-        return 1;
+        return 0.5f;
     }
 }
