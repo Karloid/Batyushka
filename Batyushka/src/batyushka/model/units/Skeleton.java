@@ -12,7 +12,7 @@ public class Skeleton extends MyUnit {
 
     // private static short damage = 10;
     private static final TextureRegion texture;
-    public static final int AGR_DISTANCE = 400;
+    public static final int AGR_DISTANCE = 340;
     private static TextureRegion deadTexture;
 
     static {

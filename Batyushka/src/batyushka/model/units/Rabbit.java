@@ -45,6 +45,11 @@ public class Rabbit extends MyUnit implements Allied {
 
 
     @Override
+    public short getMaxHitpoints() {
+        return MAX_HITPOINTS;
+    }
+
+    @Override
     public void draw(SpriteBatch batch, float parentAlpha) {
         if (MyStage.isCameraView(stage, x, y)) {
             update(Gdx.graphics.getDeltaTime());

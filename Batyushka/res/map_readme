@@ -24,6 +24,7 @@ static object:
 100 - wall
 120 - wall window
 130 - wall crest
+135 - wall saint source
 255 - appleTree
 167 - fir
 200 - bed

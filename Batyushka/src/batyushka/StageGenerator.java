@@ -126,6 +126,8 @@ public class StageGenerator {
             staticObjects.add(new Forge(x * MyStage.TILE_SIZE, y * MyStage.TILE_SIZE));
         } else if (blue == 130) {
             staticObjects.add(new WallCrest(x * MyStage.TILE_SIZE, y * MyStage.TILE_SIZE));
+        } else if (blue == 135) {
+            staticObjects.add(new WallSaintSource(x * MyStage.TILE_SIZE, y * MyStage.TILE_SIZE));
         }
     }
 

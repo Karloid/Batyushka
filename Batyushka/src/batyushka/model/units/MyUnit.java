@@ -3,6 +3,7 @@ package batyushka.model.units;
 import batyushka.Engine;
 import batyushka.draw.DamageLabel;
 import batyushka.draw.HealLabel;
+import batyushka.draw.MPRestoreLabel;
 import batyushka.model.FireBall;
 import batyushka.model.MyStage;
 import batyushka.model.staticobjects.StaticObject;
@@ -14,6 +15,7 @@ public abstract class MyUnit extends Actor {
     public static final int AGR_DISTANCE = 200;
     private static final short ATTACK_DELAY = 1000;
     private static final short MAX_HITPOINTS = 100;
+    public static final long MP_REGEN_DELAY = 500;
     public short peacefullSpeed = 2;
     public static final int COLLISIONS_WIDTH = Engine.TILE_SIZE - 16;
     public boolean isDead = false;
@@ -25,7 +27,8 @@ public abstract class MyUnit extends Actor {
     private long lastAttackTime = 0;
     protected boolean isAgred = false;
     protected double damageMultipliyer;
-
+    public short maxMana;
+    public short mana;
 
     public MyUnit(int x, int y) {
         this.velocity = new short[2];
@@ -233,5 +236,18 @@ public abstract class MyUnit extends Actor {
 
     public short getMaxHitpoints() {
         return MAX_HITPOINTS;
+    }
+
+    public void restoreMP(short value) {
+        this.mana += value;
+        getStage().addActor(new MPRestoreLabel(this.x, this.y, value));
+        if (this.mana > getMaxMana()) {
+            this.mana = getMaxMana();
+        }
+
+    }
+
+    public short getMaxMana() {
+        return 0;
     }
 }

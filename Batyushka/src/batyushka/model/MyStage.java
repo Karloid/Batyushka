@@ -91,9 +91,14 @@ public class MyStage extends Stage {
         checkFireballCollisions();
         //sortingEntity();
         super.draw();
+        drawHUD();
+    }
+
+    private void drawHUD() {
         batch.begin();
         Engine.font.draw(batch, "fps: " + Gdx.graphics.getFramesPerSecond(), player.x - 400, player.y + 300);
         Engine.font.draw(batch, "HP: " + player.hitpoint, player.x - 400, player.y - 270);
+        Engine.font.draw(batch, "MP: " + player.mana, player.x + 230, player.y - 270);
         Engine.font.draw(batch, String.valueOf(player.killCount), camera.position.x + 350, camera.position.y + 300);
         batch.end();
     }

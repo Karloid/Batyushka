@@ -16,9 +16,15 @@ import java.util.Map;
 public class Player extends MyUnit {
     public static final int SPEED = 2;
     private static final TextureRegion texture;
+    private static final short FIRE_BALL_MANA_COST = 1;
+    public static final int MAX_MP = 100;
+
     private boolean isMoving;
     private static TextureRegion deadTexture;
     private short maxHitpoints;
+
+    private short manaRegenAmount;
+    private long lastMPRegen;
 
     @Override
     public short getMaxHitpoints() {
@@ -27,8 +33,8 @@ public class Player extends MyUnit {
 
     static {
         deadTexture = new TextureRegion(new Texture(Gdx.files.internal("batyushka/res/batyushkaDead.png")), 0, 0, 32, 32);
-     //   deadTexture = new TextureRegion(new Texture(Gdx.files.internal("batyushka/res/deadCharacter.png")), 0, 0, 32, 32);
-    //    texture = new TextureRegion(new Texture(Gdx.files.internal("batyushka/res/character.png")), 0, 0, 32, 32);
+        //   deadTexture = new TextureRegion(new Texture(Gdx.files.internal("batyushka/res/deadCharacter.png")), 0, 0, 32, 32);
+        //    texture = new TextureRegion(new Texture(Gdx.files.internal("batyushka/res/character.png")), 0, 0, 32, 32);
         texture = new TextureRegion(new Texture(Gdx.files.internal("batyushka/res/batyushka.png")), 0, 0, 32, 32);
     }
 
@@ -49,6 +55,9 @@ public class Player extends MyUnit {
         this.height = 64;
         this.killCount = 0;
         this.maxHitpoints = 110;
+        this.maxMana = MAX_MP;
+        this.mana = maxMana;
+        this.manaRegenAmount = 1;
     }
 
     @Override
@@ -60,7 +69,8 @@ public class Player extends MyUnit {
             if (hitpoint < 30) {
                 batch.setColor(1, 0.8f, 0.8f, 1);
             }
-        batch.draw(texture, x - 32, y - 32, originX, originY, width, height, 1, 1, rotation);   }
+            batch.draw(texture, x - 32, y - 32, originX, originY, width, height, 1, 1, rotation);
+        }
         batch.setColor(1, 1, 1, 1);
         //    System.out.println(Gdx.graphics.getFramesPerSecond());
     }
@@ -75,12 +85,23 @@ public class Player extends MyUnit {
             velocity[0] = 0;
             velocity[1] = 0;
             stage.addActor(new ResurrectButton(this));
-         //   stage.addActor(new PlayerCorpse(this));
+            //   stage.addActor(new PlayerCorpse(this));
         } else {
+            regenMP();
             updatePosWithCheckCollisions();
-         //   super.updatePosition();
+            //   super.updatePosition();
             updateCamera();
         }
+    }
+
+    private void regenMP() {
+        if (System.currentTimeMillis() - lastMPRegen < MP_REGEN_DELAY) {
+                                                      return;
+        }
+        if (mana < maxMana) {
+            mana += manaRegenAmount;
+        }
+        lastMPRegen = System.currentTimeMillis();
     }
 
     @Override
@@ -107,14 +128,19 @@ public class Player extends MyUnit {
             castFireBall(x, y);
         }
         if (pointer == 2) {
-         //   ((MyStage) getStage()).spawnUnits(x + this.x, -y + this.y);
-         //  ((MyStage) getStage()).createWall(x + this.x, -y + this.y);
+            //   ((MyStage) getStage()).spawnUnits(x + this.x, -y + this.y);
+            //  ((MyStage) getStage()).createWall(x + this.x, -y + this.y);
         }
         return true;
     }
 
     private void castFireBall(float toX, float toY) {
         if (isDead) {
+            return;
+        }
+        if (mana - FIRE_BALL_MANA_COST >= 0) {
+            mana -= FIRE_BALL_MANA_COST;
+        } else {
             return;
         }
         FireBall fireBall = new FireBall(x, y, toX, -(toY));
@@ -138,6 +164,11 @@ public class Player extends MyUnit {
     @Override
     public boolean keyTyped(char c) {
         return true;
+    }
+
+    @Override
+    public short getMaxMana() {
+        return maxMana;
     }
 
     private void updateCamera() {
@@ -209,9 +240,6 @@ public class Player extends MyUnit {
         direction.put(Keys.DOWN, false);
     }
 
-    ;
-
-
     public void leftPressed() {
         //    Log.i("BADGER", "LEFT PRESSED");
         direction.get(direction.put(Keys.LEFT, true));
@@ -260,5 +288,7 @@ public class Player extends MyUnit {
     protected void addKillCount() {
 
         killCount++;
-    };
+    }
+
+    ;
 };
